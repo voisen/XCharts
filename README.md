@@ -5,14 +5,16 @@
 ---
 
 ### 为什么使用XCharts
-- 理由:
+
+理由:
+
  - 支持曲线/折线, 能够自定义化界面达到90%, 即使不能达到想要的界面效果, 经过简单修改也能达到.
 
  -  支持缩放功能, `跟随手势缩放` `手势完成后缩放` `禁止缩放` 随你挑
 
  -  支持渐变色填充折线/曲线
 
- -  支持点击某一项后出现数值提示 非(pop形式)
+ -  支持点击某一项后出现数值提示 (非pop形式)
 
  - 更多.... 
 
@@ -54,7 +56,7 @@
    
  - 绘制柱状图
    
-    	 你可以使用 `initWithFrame:` 方法来 创建一个 `XBarChartView` 柱状图视图,
+    你可以使用 `initWithFrame:` 方法来 创建一个 `XBarChartView` 柱状图视图,
     柱状图的柱形的背景颜色可以通过 `barBgColor` 来修改, 前景色一样通过 `chartColors` 来指定. 示例代码:
     
     ````objc   XBarChartView *chartView = [[XBarChartView alloc] initWithFrame:self.view.bounds]
