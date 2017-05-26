@@ -146,7 +146,7 @@
 	
 	`gradientColors` 填充渐变色,内部数组格式示例 `(id)[UIColor redColor].CGColor` , 数量应该与 			`yValuesArray `相等
 	
-	`gradientLocations`  渐变色的locations 参考CAGradientLayer的locations
+	`gradientLocations`  渐变色的`locations` 参考`CAGradientLayer`的`locations`
 	
 	`chartType` 绘制类型, 可选择曲线(`XChartLineTypeCurve`), 折线(`XChartLineTypePolyline`)
 	
