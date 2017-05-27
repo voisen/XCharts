@@ -57,7 +57,16 @@
 
 - (void)awakeFromNib{
     [super awakeFromNib];
-    NSAssert(NO, @"请使用 initWithFrame: 初始化方法");
+//    NSAssert(NO, @"请使用 initWithFrame: 初始化方法");
+    [self layoutIfNeeded];
+    NSLog(@"%@",NSStringFromCGRect(self.frame));
+    [self initDefaultConfig];
+    [self initViews];
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    NSLog(@"layoutSubviews:%@",NSStringFromCGRect(self.frame));
 }
 
 - (instancetype)init{
@@ -181,7 +190,7 @@
 - (BOOL)checkData{
     self.noDataLab.hidden = NO;
     [self.noDataLab sizeToFit];
-    self.noDataLab.center = self.center;
+    self.noDataLab.center = CGPointMake(self.frame.size.width*0.5f, self.frame.size.height * 0.5f);
     if (self.xTitles.count==0) {
         return NO;
     }

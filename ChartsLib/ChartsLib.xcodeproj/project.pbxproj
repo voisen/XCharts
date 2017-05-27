@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB4C54ED1ED9163000938D3E /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4C54EC1ED9163000938D3E /* SecondViewController.m */; };
 		DB77A3621EAEE8B9004EC70B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DB77A3611EAEE8B9004EC70B /* main.m */; };
 		DB77A3651EAEE8B9004EC70B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DB77A3641EAEE8B9004EC70B /* AppDelegate.m */; };
 		DB77A3681EAEE8B9004EC70B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB77A3671EAEE8B9004EC70B /* ViewController.m */; };
@@ -22,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DB4C54EB1ED9163000938D3E /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		DB4C54EC1ED9163000938D3E /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		DB77A35D1EAEE8B9004EC70B /* ChartsLib.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChartsLib.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB77A3611EAEE8B9004EC70B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DB77A3631EAEE8B9004EC70B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -81,6 +84,8 @@
 				DB77A3641EAEE8B9004EC70B /* AppDelegate.m */,
 				DB77A3661EAEE8B9004EC70B /* ViewController.h */,
 				DB77A3671EAEE8B9004EC70B /* ViewController.m */,
+				DB4C54EB1ED9163000938D3E /* SecondViewController.h */,
+				DB4C54EC1ED9163000938D3E /* SecondViewController.m */,
 				DB77A3691EAEE8B9004EC70B /* Main.storyboard */,
 				DB77A36C1EAEE8B9004EC70B /* Assets.xcassets */,
 				DB77A36E1EAEE8B9004EC70B /* LaunchScreen.storyboard */,
@@ -190,6 +195,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB4C54ED1ED9163000938D3E /* SecondViewController.m in Sources */,
 				DBC6E5F01ED7D3F800874255 /* XBaseChartView.m in Sources */,
 				DBC6E5F21ED7D3F800874255 /* UIBezierPath+LxThroughPointsBezier.m in Sources */,
 				DB77A3681EAEE8B9004EC70B /* ViewController.m in Sources */,
@@ -322,7 +328,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = JSCW2DZLX4;
 				INFOPLIST_FILE = ChartsLib/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wowtop.sss;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -335,7 +341,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = JSCW2DZLX4;
 				INFOPLIST_FILE = ChartsLib/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wowtop.sss;
 				PRODUCT_NAME = "$(TARGET_NAME)";

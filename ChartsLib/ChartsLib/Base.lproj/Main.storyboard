@@ -84,11 +84,20 @@
                                     <action selector="sureAction:" destination="HmR-4K-Fue" eventType="touchUpInside" id="H4n-sI-sb3"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Po-3e-FvE">
+                                <rect key="frame" x="588.5" y="5" width="46" height="30"/>
+                                <state key="normal" title="下一个"/>
+                                <connections>
+                                    <action selector="sureAction:" destination="HmR-4K-Fue" eventType="touchUpInside" id="rkT-1J-Oeb"/>
+                                    <segue destination="UGl-N2-NY8" kind="show" id="dd9-Gt-XIa"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="B5u-t1-UI0" firstAttribute="leading" secondItem="Cg0-Id-BXn" secondAttribute="trailing" constant="10" id="0Kt-yF-Pnt"/>
                             <constraint firstItem="rTE-Oe-3l9" firstAttribute="leading" secondItem="mrc-kv-tFN" secondAttribute="trailing" constant="10" id="0rf-nK-WtG"/>
+                            <constraint firstItem="5Po-3e-FvE" firstAttribute="leading" secondItem="TF3-Ac-kkt" secondAttribute="trailing" constant="10" id="4Bu-Hv-pNt"/>
                             <constraint firstItem="Cg0-Id-BXn" firstAttribute="leading" secondItem="B4F-DP-KKk" secondAttribute="trailing" constant="10" id="4T9-gx-ix7"/>
                             <constraint firstItem="tuI-Gz-55P" firstAttribute="leading" secondItem="z5b-sc-wtb" secondAttribute="leading" id="4qM-zd-Glx"/>
                             <constraint firstItem="puX-4k-Smp" firstAttribute="centerY" secondItem="B4F-DP-KKk" secondAttribute="centerY" id="4vT-6m-r8Z"/>
@@ -107,6 +116,7 @@
                             <constraint firstItem="tuI-Gz-55P" firstAttribute="top" secondItem="TF3-Ac-kkt" secondAttribute="bottom" constant="5" id="efg-Sc-pHY"/>
                             <constraint firstItem="mrc-kv-tFN" firstAttribute="centerY" secondItem="B4F-DP-KKk" secondAttribute="centerY" id="eya-GR-NrG"/>
                             <constraint firstItem="rTE-Oe-3l9" firstAttribute="centerY" secondItem="B4F-DP-KKk" secondAttribute="centerY" id="j4R-TA-YaY"/>
+                            <constraint firstItem="5Po-3e-FvE" firstAttribute="top" secondItem="z5b-sc-wtb" secondAttribute="top" constant="5" id="jXk-c1-KQh"/>
                             <constraint firstItem="B5u-t1-UI0" firstAttribute="centerY" secondItem="B4F-DP-KKk" secondAttribute="centerY" id="lHj-fV-Fhl"/>
                             <constraint firstItem="TF3-Ac-kkt" firstAttribute="top" secondItem="z5b-sc-wtb" secondAttribute="topMargin" id="mlJ-X9-RGv"/>
                             <constraint firstItem="szh-Ta-hHI" firstAttribute="centerY" secondItem="B4F-DP-KKk" secondAttribute="centerY" id="o2s-qj-sRw"/>
@@ -127,7 +137,42 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2dK-zf-fjS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-537.48125937031489" y="-591.20000000000005"/>
+            <point key="canvasLocation" x="-1209" y="-658"/>
+        </scene>
+        <!--Second View Controller-->
+        <scene sceneID="Yl6-W1-trC">
+            <objects>
+                <viewController id="UGl-N2-NY8" customClass="SecondViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HcB-yJ-CQ6"/>
+                        <viewControllerLayoutGuide type="bottom" id="Xoc-et-OPH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Bb7-h5-tWz">
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7ua-qQ-Px6" customClass="XLineChartView">
+                                <rect key="frame" x="33.5" y="37" width="600" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="72Y-b3-nxn"/>
+                                    <constraint firstAttribute="width" constant="600" id="IAn-LI-Efd"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="7ua-qQ-Px6" firstAttribute="centerX" secondItem="Bb7-h5-tWz" secondAttribute="centerX" id="42F-Eg-Z4u"/>
+                            <constraint firstItem="7ua-qQ-Px6" firstAttribute="centerY" secondItem="Bb7-h5-tWz" secondAttribute="centerY" id="KgW-oB-Djk"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="lineChartView" destination="7ua-qQ-Px6" id="rPA-ha-Np2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UKV-hd-vmv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-430.43478260869568" y="-684"/>
         </scene>
     </scenes>
 </document>
