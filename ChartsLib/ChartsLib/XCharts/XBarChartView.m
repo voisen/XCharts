@@ -27,6 +27,8 @@
 - (void)initDefaultConfig{
     [super initDefaultConfig];
     self.barBgColor = [UIColor colorWithRed:0.882 green:0.882 blue:0.882 alpha:0.20];
+    
+    self.coordColor = [UIColor blackColor];
 }
 
 
@@ -148,7 +150,7 @@
 
 
 - (void)barDidselect:(NSIndexPath *)indexPath bar:(XBar *)bar{
-    [self drawMarker:bar.center.x xTitle:self.xTitles[indexPath.row] yValuesArr:@[self.yValuesArray[indexPath.section][indexPath.row]]];
+    [self drawMarker:bar.center.x xTitle:self.xTitles[indexPath.row] yValuesArr:@[self.yValuesArray[indexPath.section][indexPath.row]] indexPath:indexPath];
 }
 
 @end

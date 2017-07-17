@@ -113,7 +113,7 @@ typedef NS_ENUM(NSInteger, XChartViewScaleType) {
 - (void)initChart;
 - (void)scrollViewContentSizeDidChange:(CGSize)size;
 - (void)touchPoint:(CGPoint)p xLabWidth:(CGFloat)labWidth;
-- (void)drawMarker:(CGFloat)drawX xTitle:(NSString *)title yValuesArr:(NSArray *)yArr;
+- (void)drawMarker:(CGFloat)drawX xTitle:(NSString *)title yValuesArr:(NSArray *)yArr indexPath:(NSIndexPath*)indexPath;
 
 
 @end

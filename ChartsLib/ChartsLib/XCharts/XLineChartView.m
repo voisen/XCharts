@@ -28,9 +28,10 @@
     self.strokeLineWidth = 2.0f;
     self.dotRadius = 2.0f;
     self.dotLineWidth = 1.0f;
-    self.gradientEnable = YES;
+    self.gradientEnable = true;
     self.chartType = XChartLineTypeCurve;
-    self.showDot = YES;
+    self.showDot = true;
+    self.coordColor = [UIColor blackColor];
 }
 
 //绘制工作
@@ -144,6 +145,7 @@
     [valuePath moveToPoint:CGPointMake(labWidth*0.5f + WZCChartLeft, self.contentView.frame.size.height - WZCChartBottomHeight)];
     float scale = [[self valueForKey:@"chartScale"] floatValue];
     NSMutableArray *points = nil;
+    CGPoint lastPoint = CGPointMake(self.contentView.contentSize.width - WZCChartRight - labWidth * 0.5f,self.contentView.frame.size.height - WZCChartBottomHeight );
     if (self.chartType == XChartLineTypeCurve) {
         points = [NSMutableArray array];
     }
@@ -158,11 +160,13 @@
         }else{
             [valuePath addLineToPoint:CGPointMake(x, y)];
         }
+        lastPoint = CGPointMake(x,self.contentView.frame.size.height - WZCChartBottomHeight );
     }
-    CGPoint lastPoint = CGPointMake(self.contentView.contentSize.width - WZCChartRight - labWidth * 0.5f,self.contentView.frame.size.height - WZCChartBottomHeight );
+    
     if (self.chartType == XChartLineTypeCurve && points.count > 0 && valuesArr.count > 3) {
         [valuePath addBezierThroughPoints:points];
     }
+    
     [valuePath addLineToPoint:lastPoint];
     
     [valuePath closePath];
@@ -189,7 +193,8 @@
             break;
         }
         CGFloat x = labWidth *(i + 0.5f) + WZCChartLeft;
-        CGFloat y = self.contentView.frame.size.height - scale * [valuesArr[i] floatValue] - WZCChartBottomHeight;
+        CGFloat minY = [[self valueForKey:@"minY"] floatValue];
+        CGFloat y = self.contentView.frame.size.height - scale * ([valuesArr[i] floatValue] - minY)  - WZCChartBottomHeight;
         if (i == 0) {
             [valuePath moveToPoint:CGPointMake(x, y)];
         }
@@ -229,7 +234,7 @@
     
     CGFloat drawX = (position + 0.5) * labWidth + WZCChartLeft;
     
-    [self drawMarker:drawX xTitle:xTitle yValuesArr:yValues];
+    [self drawMarker:drawX xTitle:xTitle yValuesArr:yValues indexPath:nil];
 }
 
 

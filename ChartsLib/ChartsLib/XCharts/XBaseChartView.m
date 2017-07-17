@@ -48,6 +48,12 @@
 /** 数值标签的layer */
 @property (nonatomic,weak) UILabel *markerView;
 
+/** 单位lab */
+@property (nonatomic,weak) UILabel *unitLab;
+
+/** 最小的Y */
+@property (nonatomic,assign) CGFloat minY;
+
 @end
 
 @implementation XBaseChartView{
@@ -57,16 +63,13 @@
 
 - (void)awakeFromNib{
     [super awakeFromNib];
-//    NSAssert(NO, @"请使用 initWithFrame: 初始化方法");
     [self layoutIfNeeded];
-    NSLog(@"%@",NSStringFromCGRect(self.frame));
     [self initDefaultConfig];
     [self initViews];
 }
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    NSLog(@"layoutSubviews:%@",NSStringFromCGRect(self.frame));
 }
 
 - (instancetype)init{
@@ -104,7 +107,7 @@
     self.markerLineWidth = 1.5f;
     self.markerLineColor = [UIColor colorWithRed:0.9 green:0.1 blue:0.1 alpha:1.00];
     
-    self.scaleType = XChartViewScaleTypeAfterGesture;
+    self.scaleType = XChartViewScaleTypeFollowGesture;
 }
 
 - (void)initViews{
@@ -124,8 +127,8 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
     [self.contentView addGestureRecognizer:tap];
     
-    panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
-    [self.contentView addGestureRecognizer:panGesture];
+    //    panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
+    //    [self.contentView addGestureRecognizer:panGesture];
     
     UILabel *noDataLab = [[UILabel alloc] init];
     noDataLab.text = @"没有数据";
@@ -147,19 +150,46 @@
     self.contentView.hidden = NO;
     self.userInteractionEnabled = YES;
     self.noDataLab.hidden = YES;
-    __block CGFloat y_Max = CGFLOAT_MIN;
+    __block CGFloat y_Max = -CGFLOAT_MAX;
+    __block CGFloat y_Min = CGFLOAT_MAX;
     [_yValuesArray enumerateObjectsUsingBlock:^(NSArray * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [obj enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (y_Max < [obj floatValue]) {
                 y_Max = [obj floatValue];
             }
+            if ([obj floatValue]<y_Min) {
+                y_Min = [obj floatValue];
+            }
         }];
     }];
-    if (y_Max < 1) {
-        y_Max = 1;
+    //    if (y_Max < 1) {
+    //        y_Max = 1;
+    //    }
+    
+    if (y_Min>0) {
+        y_Min = 0;
+    }else{
+        if (y_Min<-10) {
+            while ((int)(y_Min+0.5)%5!=0) {
+                y_Min--;
+            }
+        }else{
+            int yMinTmp = y_Min * 100;
+            while (yMinTmp%5!=0) {
+                yMinTmp--;
+            }
+            y_Min = yMinTmp/100.0f;
+        }
     }
-    _yStepValue = y_Max / self.yLabNumber;
-    if (y_Max < self.yLabNumber * 5) {
+    
+    
+    if (y_Max - y_Min == 0) {
+        y_Max = 0;
+    }
+    
+    _yStepValue = (y_Max-y_Min) / self.yLabNumber;
+    
+    if (y_Max < 100) {
         NSInteger stepTemp = _yStepValue * 100;
         while (stepTemp%5 != 0) {//78.87
             stepTemp++;
@@ -171,13 +201,15 @@
         }
         _yStepValue = (int)_yStepValue;
     }
-    y_Max = _yStepValue * self.yLabNumber;
-    if (y_Max == 0) {
+    y_Max = _yStepValue * self.yLabNumber + y_Min;
+    if (y_Max - y_Min == 0) {
         y_Max = 1;
+        y_Min = 0;
     }
-    _chartScale = (self.frame.size.height - WZCChartTopHeight - WZCChartBottomHeight)/y_Max;
-    _maxY = y_Max;
     
+    _chartScale = (self.frame.size.height - WZCChartTopHeight - WZCChartBottomHeight)/(y_Max - y_Min);
+    _maxY = y_Max;
+    _minY = y_Min;
     [self drawY];
     [self drawX];
     if (self.yAssistLineEnable) {
@@ -195,7 +227,16 @@
         return NO;
     }
     __block BOOL flag = NO;
+    if (self.yValuesArray == nil) {
+        return NO;
+    }
     [self.yValuesArray enumerateObjectsUsingBlock:^(NSArray * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        
+        if (obj == nil) {
+            flag = NO;
+        }
+        
         if (obj.count!=0) {
             flag = YES;
         }
@@ -205,7 +246,7 @@
     NSLog(@"DEBUG...");
 #else
     NSLog(@"RELESE...");
-    return YES;
+    return flag;
 #endif
     
     for (id obj in self.xTitles) {
@@ -228,17 +269,38 @@
  绘制Y轴
  */
 - (void)drawY{
+    [_unitLab removeFromSuperview];
     CGFloat arrowWidth = self.coordWidth * 3;
-    NSString *maxWidthStr;
-    if (_yStepValue == (int)_yStepValue) {
-        maxWidthStr = [NSString stringWithFormat:@"%0.1f",_maxY];
-    }else{
-        maxWidthStr = [NSString stringWithFormat:@"%0.3f",_maxY];
+    CGSize size = [self.yUnit sizeWithAttributes:@{NSFontAttributeName:self.labFont}];
+    for (int i = 0; i < self.yLabNumber+1; i++) {
+        NSString *yLabValueStr;
+        if ((int)(i * _yStepValue+self.minY) == (i * _yStepValue+self.minY)) {
+            yLabValueStr = [NSString stringWithFormat:@"%d",(int)(i * _yStepValue+self.minY)];
+        }else{
+            yLabValueStr = [NSString stringWithFormat:@"%0.2f",i * _yStepValue+self.minY];
+        }
+        
+        CGSize tmpSize = [yLabValueStr sizeWithAttributes:@{NSFontAttributeName:self.labFont}];
+        if (tmpSize.width>size.width) {
+            size = tmpSize;
+        }
     }
-    CGSize size = [maxWidthStr sizeWithAttributes:@{NSFontAttributeName:self.labFont}];
+    size.width += 3;
     //绘制y轴
     UIView *yCoorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width + arrowWidth * 3 + self.coordWidth, self.frame.size.height)]; //初始化y轴的view
     _y_coor_view = yCoorView;
+    UILabel *unitLab = [[UILabel alloc] init];
+    unitLab.text = self.yUnit;
+    unitLab.textAlignment = NSTextAlignmentCenter;
+    unitLab.font = self.labFont;
+    unitLab.textColor = self.coordColor;
+    [unitLab sizeToFit];
+    CGPoint uCenter = unitLab.center;
+    uCenter.x = yCoorView.center.x;
+    unitLab.center = uCenter;
+    _unitLab = unitLab;
+    [yCoorView addSubview:unitLab];
+    
     UIBezierPath *yCoordsPath = [UIBezierPath bezierPath]; //绘制Y
     [yCoordsPath moveToPoint:CGPointMake(CGRectGetMaxX(yCoorView.frame) - self.coordWidth - arrowWidth, yCoorView.frame.size.height - WZCChartBottomHeight + self.coordWidth * 0.5f)];
     [yCoordsPath addLineToPoint:CGPointMake(CGRectGetMaxX(yCoorView.frame) - self.coordWidth - arrowWidth, 0)];
@@ -247,10 +309,10 @@
         UILabel *yLab = [[UILabel alloc] initWithFrame:CGRectMake(0, y - size.height/2.0f, size.width, size.height)];
         yLab.font = self.labFont;
         NSString *yLabValueStr;
-        if (_yStepValue == (int)_yStepValue) {
-            yLabValueStr = [NSString stringWithFormat:@"%d",(int)(i * _yStepValue)];
+        if ((int)(i * _yStepValue+self.minY) == (i * _yStepValue+self.minY)) {
+            yLabValueStr = [NSString stringWithFormat:@"%d",(int)(i * _yStepValue+self.minY)];
         }else{
-            yLabValueStr = [NSString stringWithFormat:@"%0.2f",i * _yStepValue];
+            yLabValueStr = [NSString stringWithFormat:@"%0.2f",i * _yStepValue+self.minY];
         }
         yLab.text = yLabValueStr;
         yLab.textAlignment = NSTextAlignmentRight;
@@ -514,7 +576,7 @@
  @param title title description
  @param yArr yArr description
  */
-- (void)drawMarker:(CGFloat)drawX xTitle:(NSString *)title yValuesArr:(NSArray *)yArr{
+- (void)drawMarker:(CGFloat)drawX xTitle:(NSString *)title yValuesArr:(NSArray *)yArr indexPath:(NSIndexPath *)indexPath{
     [self.markerLayer removeFromSuperlayer];
     [self.markerView removeFromSuperview];
     //绘制竖线
@@ -538,10 +600,14 @@
     NSMutableString *showMsg = [[NSMutableString alloc] init];
     [showMsg appendFormat:@"  %@\n",title];
     [yArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (self.dataNameArr!=nil&&self.dataNameArr.count < idx) {
-            [showMsg appendFormat:@"  %@: %@ %@\n",self.dataNameArr[idx],obj,self.yUnit];
+        if (self.dataNameArr!=nil&&idx<self.dataNameArr.count) {
+            if (indexPath) {
+                [showMsg appendFormat:@"  %@: %@ %@\n",self.dataNameArr[indexPath.section],obj,self.yUnit];
+            }else{
+                [showMsg appendFormat:@"  %@: %@ %@\n",self.dataNameArr[idx],obj,self.yUnit];
+            }
         }else{
-            [showMsg appendFormat:@"  值%zd: %@ %@\n",idx+1,obj,self.yUnit];
+            [showMsg appendFormat:@"  值%@: %@ %@\n",(yArr.count==1)?@"":[NSString stringWithFormat:@"%zd",idx+1],obj,self.yUnit];
         }
         drawViewY += [obj floatValue];
     }];
@@ -576,7 +642,7 @@
         frame.origin.x += 3.0f;
     }
     if (CGRectGetMaxY(frame) > maxY) {
-        frame.origin.y -= frame.size.height;
+        frame.origin.y = maxY - frame.size.height;
     }
     if (frame.origin.y<0) {
         frame.origin.y = 0;
