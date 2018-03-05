@@ -23,8 +23,8 @@
 ### 效果图
 
 ![效果图展示](images/gif.gif)
-![效果图展示](chart1.png)
-![效果图展示](images/gif.gif)
+![效果图展示](images/chart1.png)
+![效果图展示](images/chart2.png)
 
 ### 使用
 - 导入工程
