@@ -51,13 +51,13 @@
         //0.86
         _barSpace = 0.05;
         //0.81
-        _barWidth = (1.0f - self.margin * 2.0f - self.barSpace * (self.yValuesArray.count - 1))/(1.0f*self.yValuesArray.count);//0.405
+        _barWidth = (1.0f - self.margin * 2.0f - self.barSpace * (self.chartYValuesArr.count - 1))/(1.0f*self.chartYValuesArr.count);//0.405
         if (_barWidth <= 0.0f) {
             NSLog(@"错误: 组数太多啦....赶紧清理清理");
         }
     }else{
         self.isCustemSize = YES;
-        float total = self.margin * 2.0f + self.yValuesArray.count * (self.barSpace + self.barWidth) - self.barSpace;
+        float total = self.margin * 2.0f + self.chartYValuesArr.count * (self.barSpace + self.barWidth) - self.barSpace;
         NSAssert(total == 1.0f, @"重要: 请根据公式重新设置 `margin`,`barSpace`,`barWidth`的值 !!");
     }
 #ifdef DEBUG
@@ -83,7 +83,7 @@
     UIView *chartView = [[UIView alloc] initWithFrame:CGRectMake(0, WZCChartTopHeight, self.contentView.contentSize.width, self.contentView.frame.size.height - WZCChartTopHeight - WZCChartBottomHeight)];
     _chartView = chartView;
     [self.contentView addSubview:chartView];
-    [self.yValuesArray enumerateObjectsUsingBlock:^(NSArray * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.chartYValuesArr enumerateObjectsUsingBlock:^(NSArray * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [self drawBar:idx valueArray:obj animation:animation];
     }];
 }
@@ -150,7 +150,7 @@
 
 
 - (void)barDidselect:(NSIndexPath *)indexPath bar:(XBar *)bar{
-    [self drawMarker:bar.center.x xTitle:self.xTitles[indexPath.row] yValuesArr:@[self.yValuesArray[indexPath.section][indexPath.row]] indexPath:indexPath];
+    [self drawMarker:bar.center.x xTitle:self.xTitles[indexPath.row] yValuesArr:@[self.chartYValuesArr[indexPath.section][indexPath.row]] indexPath:indexPath];
 }
 
 @end

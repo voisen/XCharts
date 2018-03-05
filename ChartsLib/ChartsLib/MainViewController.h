@@ -1,15 +1,13 @@
 //
-//  ViewController.h
+//  MainViewController.h
 //  ChartsLib
 //
-//  Created by 邬志成 on 2017/4/25.
+//  Created by Pinken on 2017/8/22.
 //  Copyright © 2017年 邬志成. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface MainViewController : UIViewController
 
 @end
-
