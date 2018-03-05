@@ -68,9 +68,16 @@
             // 调试用
             if(i == 0)
                 [xTitles addObject:[NSString stringWithFormat:@"X点%d",j]];
-            [yArr addObject:[NSString stringWithFormat:@"%d",j+i*10+100]];
+            
+            [yArr addObject:[NSString stringWithFormat:@"%d",-(j+i*10+120)]];
+            //            [yArr addObject:[NSString stringWithFormat:@"%d",j+10+100]];
+            
         }
         [yValues addObject:yArr];
+        
+        
+        //        [self.yChartArr replaceObjectAtIndex:[self.reportDatas indexOfObject:@"Grid"] withObject:yArr];
+        
         NSLog(@"yValues -- %@", yValues);
     }
     
@@ -169,7 +176,7 @@
             if(i == 0)
                 [xTitles addObject:[NSString stringWithFormat:@"X点%d",j]];
             
-            [yArr addObject:[NSString stringWithFormat:@"%d",-(j+i*10+100)]];
+            [yArr addObject:[NSString stringWithFormat:@"%d",-(j+i*10+120)]];
 //            [yArr addObject:[NSString stringWithFormat:@"%d",j+10+100]];
 
         }
@@ -204,13 +211,13 @@
     
 //    chartView.dataNameArr = [NSMutableArray arrayWithArray:@[@"11", @"22", @"33", @"44", @"55", @"66"]] ;
     
-    chartView.dataNameArr = [NSMutableArray arrayWithArray:@[@"SOC", @"Battery", @"Grid", @"Generator", @"Load", @"Solar"]] ;
+    chartView.dataNameArr = [NSMutableArray arrayWithArray:@[@"Line1", @"Line2", @"Line3", @"Line4", @"Line5", @"Line6"]] ;
     
     chartView.xTitles = xTitles;    //设置X
     chartView.yValuesArray = yValues;  //设置Y
-    chartView.yUnit = @"Power(kW)";
-    chartView.rYUnit = @"SOC(%)";
-    chartView.chartTitle = @"图表";
+    chartView.yUnit = @"Unit1(s)";
+    chartView.rYUnit = @"Unit2(k)";
+    chartView.chartTitle = @"Title";
     chartView.rYIndexArr = @[[NSNumber numberWithUnsignedInteger:2]];
 }
 
