@@ -555,20 +555,21 @@
     self.contentView.hidden = NO;
     self.userInteractionEnabled = YES;
     self.noDataLab.hidden = YES;
-//    __block CGFloat y_Max = -CGFLOAT_MAX;
-//    // 右侧最大 y 值
-//    __block CGFloat r_y_Max = -CGFLOAT_MAX;
-//    __block CGFloat y_Min = CGFLOAT_MAX;
-//    // 右侧最小 y 值
-//    __block CGFloat r_y_Min = CGFLOAT_MAX;
     
-    __block CGFloat y_Max = 0;
+    __block CGFloat y_Max = -CGFLOAT_MAX;
     // 右侧最大 y 值
-    __block CGFloat r_y_Max = 0;
-    __block CGFloat y_Min = 0;
+    __block CGFloat r_y_Max = -CGFLOAT_MAX;
+    __block CGFloat y_Min = CGFLOAT_MAX;
     // 右侧最小 y 值
-    __block CGFloat r_y_Min = 0;
-
+    __block CGFloat r_y_Min = CGFLOAT_MAX;
+    
+    //    __block CGFloat y_Max = 0;
+    //    // 右侧最大 y 值
+    //    __block CGFloat r_y_Max = 0;
+    //    __block CGFloat y_Min = 0;
+    //    // 右侧最小 y 值
+    //    __block CGFloat r_y_Min = 0;
+    
     __block BOOL isHaveRightElement = NO;
     NSLog(@"self.chartYVCount -- %lu", (unsigned long)self.chartYValuesArr.count);
     NSLog(@"_chartYvaluesArr -- %@", self.chartYValuesArr);
@@ -749,14 +750,32 @@
     //        <#statements#>
     //    }
     
+    //    __block CGFloat y_Max = -CGFLOAT_MAX;
+    //    // 右侧最大 y 值
+    //    __block CGFloat r_y_Max = -CGFLOAT_MAX;
+    //    __block CGFloat y_Min = CGFLOAT_MAX;
+    //    // 右侧最小 y 值
+    //    __block CGFloat r_y_Min = CGFLOAT_MAX;
     
-    [self drawY];
-    [self drawRightY];
-    [self drawX];
-    if (self.yAssistLineEnable) {
-        [self drawYAssistLine:self.contentView.contentSize];
+    NSLog(@"3-6 y_Max -- %f \n r_y_Max -- %f \n y_Min -- %f \n r_y_Min -- %f \n CGFLOAT_MAX -- %f", y_Max, r_y_Max, y_Min, r_y_Min, CGFLOAT_MAX);
+    
+    if (y_Max != -276701154920890368 && r_y_Max != -276701154920890368) {
+        [self drawY];
+        [self drawRightY];
+        [self drawX];
+        if (self.yAssistLineEnable) {
+            [self drawYAssistLine:self.contentView.contentSize];
+        }
+        [self initChart];
     }
-    [self initChart];
+    
+    //    [self drawY];
+    //    [self drawRightY];
+    //    [self drawX];
+    //    if (self.yAssistLineEnable) {
+    //        [self drawYAssistLine:self.contentView.contentSize];
+    //    }
+    //    [self initChart];
 }
 
 
@@ -1229,7 +1248,7 @@
         UIBezierPath *path = [UIBezierPath bezierPath];
         [path moveToPoint:CGPointMake(0, y)];
         CGFloat maxX = [self isKindOfClass:NSClassFromString(@"XBarChartView")]?(self.contentView.contentSize.width - WZCChartRight):self.xLabArr.lastObject.center.x;
-//        [path addLineToPoint:CGPointMake(maxX, y)];
+        //        [path addLineToPoint:CGPointMake(maxX, y)];
         [path addLineToPoint:CGPointMake(self.contentView.contentSize.width-3, y)];
         [yAssistPath appendPath:path];
     }
