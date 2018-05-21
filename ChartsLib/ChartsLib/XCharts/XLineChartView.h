@@ -60,3 +60,5 @@ typedef NS_ENUM(NSInteger, RXLineDotType) {
 /** 线条类型 */
 @property (nonatomic,assign) XChartLineType chartType;
 @end
+
+

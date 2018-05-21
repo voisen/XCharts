@@ -32,10 +32,10 @@
     self.gradientEnable = true;
     self.chartType = XChartLineTypeCurve;
     self.showDot = true;
-//    self.coordColor = [UIColor redColor];
+    //    self.coordColor = [UIColor redColor];
     // sihua 更改轴线颜色
     self.coordColor = [UIColor colorWithRed:178/255.f green:223/255.f blue:238/255.f alpha:1.00];
-
+    
     
     // sihua
     self.dotType = RXLineDotTypeCircle;
@@ -65,7 +65,7 @@
     [self.contentView.layer addSublayer:valueLayer];
     
     [self.chartYValuesArr enumerateObjectsUsingBlock:^(NSArray * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        NSLog(@"idx 测试测试 -- %lu", (unsigned long)idx);
+        //        NSLog(@"idx 测试测试 -- %lu", (unsigned long)idx);
         NSArray *pathArr = [self strokeChartWithArray:obj idx:idx];
         UIBezierPath *valuesPath = pathArr.firstObject;
         UIBezierPath *dotPath = pathArr.lastObject;
@@ -84,12 +84,12 @@
             arcLayer.path = dotPath.CGPath;
             arcLayer.lineWidth = self.dotLineWidth;
             arcLayer.strokeColor = self.dotStrokeColors[idx].CGColor;
-//            // sihua暂时屏蔽
-//            if (self.dotFillColors && idx<self.dotFillColors.count) {
-//                arcLayer.fillColor = self.dotFillColors[idx].CGColor;
-//            }else{
-//                arcLayer.fillColor = [UIColor whiteColor].CGColor;
-//            }
+            //            // sihua暂时屏蔽
+            //            if (self.dotFillColors && idx<self.dotFillColors.count) {
+            //                arcLayer.fillColor = self.dotFillColors[idx].CGColor;
+            //            }else{
+            //                arcLayer.fillColor = [UIColor whiteColor].CGColor;
+            //            }
             if (self.isDotFill == YES) {
                 // 影响点填充颜色的地方，将该行注释掉，则默认黑色
                 arcLayer.fillColor = self.chartColors[idx].CGColor;
@@ -173,7 +173,7 @@
         }
         CGFloat x = labWidth *(i + 0.5f) + WZCChartLeft;
         CGFloat y = self.contentView.frame.size.height - scale * [valuesArr[i] floatValue] - WZCChartBottomHeight;
-
+        
         if (self.chartType == XChartLineTypeCurve && i!=0 && valuesArr.count > 3) {
             [points addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
         }else{
@@ -200,7 +200,7 @@
  */
 - (NSArray<UIBezierPath*>*)strokeChartWithArray:(NSArray<NSString *> *)valuesArr idx:(NSUInteger)idx{
     NSLog(@"index -- %lu", (unsigned long)idx);
-//    NSLog(@"调试 -- %@, %lu", valuesArr, (unsigned long)idx);
+    //    NSLog(@"调试 -- %@, %lu", valuesArr, (unsigned long)idx);
     
     CGFloat labWidth = [[self valueForKey:@"finalLabWidth"] floatValue];//(self.contentView.contentSize.width - WZCChartRight - WZCChartLeft)/self.x_values.count + self.xLabspace*2.0f;
     UIBezierPath *valuePath = [UIBezierPath bezierPath];
@@ -219,9 +219,9 @@
         lineMinY = [[self valueForKey:@"minY"] floatValue];
     }
     NSLog(@"调试 scale -- %f", scale);
-//    float scale = [[self valueForKey:@"chartScale"] floatValue];
-//    float scale = [[self valueForKey:@"r_y_chartScale"] floatValue];
-
+    //    float scale = [[self valueForKey:@"chartScale"] floatValue];
+    //    float scale = [[self valueForKey:@"r_y_chartScale"] floatValue];
+    
     NSMutableArray *points = nil;
     if (self.chartType == XChartLineTypeCurve) {
         points = [NSMutableArray array];
@@ -234,8 +234,8 @@
         CGFloat minY = lineMinY;
         // sihua 会影响点的位置
         CGFloat y = self.contentView.frame.size.height - scale * ([valuesArr[i] floatValue] - minY)  - WZCChartBottomHeight;
-//        CGFloat y = 100;
-
+        //        CGFloat y = 100;
+        
         if (i == 0) {
             [valuePath moveToPoint:CGPointMake(x, y)];
         }
@@ -247,22 +247,22 @@
             }
         }
         if (_showDot) {
-////            // sihua 暂时屏蔽
-//            UIBezierPath *arcPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(x, y) radius:self.dotRadius startAngle:0 endAngle:M_PI*2.0f clockwise:NO];
-//            [circelPath appendPath:arcPath];
+            ////            // sihua 暂时屏蔽
+            //            UIBezierPath *arcPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(x, y) radius:self.dotRadius startAngle:0 endAngle:M_PI*2.0f clockwise:NO];
+            //            [circelPath appendPath:arcPath];
             
-//            // sihua
-//            UIBezierPath *cirPath;
-//            UIBezierPath *squPath;
-//            UIBezierPath *upTriPath;
-//            UIBezierPath *downTriPath;
+            //            // sihua
+            //            UIBezierPath *cirPath;
+            //            UIBezierPath *squPath;
+            //            UIBezierPath *upTriPath;
+            //            UIBezierPath *downTriPath;
             
-//            [downTriPath moveToPoint:CGPointMake(x, y+self.dotRadius)];
-//            [downTriPath addLineToPoint:CGPointMake(x-self.dotRadius, y-self.dotRadius)];
-//            [downTriPath addLineToPoint:CGPointMake(x+self.dotRadius, y-self.dotRadius)];
-//            [downTriPath closePath];
+            //            [downTriPath moveToPoint:CGPointMake(x, y+self.dotRadius)];
+            //            [downTriPath addLineToPoint:CGPointMake(x-self.dotRadius, y-self.dotRadius)];
+            //            [downTriPath addLineToPoint:CGPointMake(x+self.dotRadius, y-self.dotRadius)];
+            //            [downTriPath closePath];
             //
-//            double circleL = self
+            //            double circleL = self
             
             // sihua
             UIBezierPath *cirPath;
@@ -281,10 +281,10 @@
                     [circelPath closePath];
                     break;
                 case RXLineDotTypeSquare:   // 正方形
-//                    [circelPath moveToPoint:CGPointMake(x-squareL, y+squareL)];
-//                    [circelPath addLineToPoint:CGPointMake(x+squareL, y+squareL)];
-//                    [circelPath addLineToPoint:CGPointMake(x+squareL, y-squareL)];
-//                    [circelPath addLineToPoint:CGPointMake(x-squareL, y-squareL)];
+                    //                    [circelPath moveToPoint:CGPointMake(x-squareL, y+squareL)];
+                    //                    [circelPath addLineToPoint:CGPointMake(x+squareL, y+squareL)];
+                    //                    [circelPath addLineToPoint:CGPointMake(x+squareL, y-squareL)];
+                    //                    [circelPath addLineToPoint:CGPointMake(x-squareL, y-squareL)];
                     [circelPath moveToPoint:CGPointMake(x-squareL, y+squareL)];
                     [circelPath addLineToPoint:CGPointMake(x+squareL, y+squareL)];
                     [circelPath addLineToPoint:CGPointMake(x+squareL, y-squareL)];
@@ -312,7 +312,7 @@
     }
     if (self.chartType == XChartLineTypeCurve && points.count>0 && valuesArr.count > 3) {
         [valuePath addBezierThroughPoints:points];
-//        NSLog(@"测试测试 pointCount -- %lu", (unsigned long)points.count);
+        //        NSLog(@"测试测试 pointCount -- %lu", (unsigned long)points.count);
     }
     return @[valuePath,circelPath];
 }
@@ -323,8 +323,16 @@
     if (position>=self.xTitles.count || position < 0) {
         return;
     }
-//    NSString *xTitle = [self.xTitles objectAtIndex:position];  //x标签名
+    //    NSString *xTitle = [self.xTitles objectAtIndex:position];  //x标签名
     NSString *xTitle = [self.xTitles objectAtIndex:position];  //x标签名
+    
+    if (self.xCoType == XCoordinatesTypeMinute) {
+        xTitle = [self stringByXCoordinatesType:XCoordinatesTypeNormal objStr:xTitle];
+    }
+    else {
+        xTitle = [self stringByXCoordinatesType:self.xCoType objStr:xTitle];
+    }
+    
     NSMutableArray <NSString *>*yValues = [NSMutableArray array];  //y轴的值
     [self.chartYValuesArr enumerateObjectsUsingBlock:^(NSArray * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (position < obj.count) {
@@ -333,6 +341,7 @@
             [yValues addObject:@"--"];
         }
     }];
+    
     
     CGFloat drawX = (position + 0.5) * labWidth + WZCChartLeft;
     
@@ -348,9 +357,10 @@
     }
     // sihua 影响连接点的线条颜色，非填充颜色
     _dotStrokeColors = self.chartColors;
-//    NSArray *colorArr = @[[UIColor blueColor], [UIColor grayColor], [UIColor whiteColor],[UIColor purpleColor], [UIColor orangeColor], [UIColor greenColor]];
-//    _dotStrokeColors = colorArr;
+    //    NSArray *colorArr = @[[UIColor blueColor], [UIColor grayColor], [UIColor whiteColor],[UIColor purpleColor], [UIColor orangeColor], [UIColor greenColor]];
+    //    _dotStrokeColors = colorArr;
     return _dotStrokeColors;
 }
 
 @end
+

@@ -19,10 +19,17 @@ typedef NS_ENUM(NSInteger, XChartViewScaleType) {
     XChartViewScaleTypeAfterGesture    //手势执行之后
 };
 
+typedef NS_ENUM(NSInteger, XCoordinatesType) {
+    XCoordinatesTypeNormal = 0, //对获取到的X 轴刻度不作任何处理
+    XCoordinatesTypeMinute,     //显示小时和分钟
+    XCoordinatesTypeDay,        //显示年月日
+    XCoordinatesTypeMonth       //显示年月
+};
+
 
 @interface XBaseChartView : UIView
 
-/* 右侧 y 轴再数组中的 index ，目前只支持右侧的线条只有一条的情况 */
+/* 右侧 y 轴再数组中的 index */
 @property (nonatomic, strong)NSArray *rYIndexArr;
 
 /** 图表标题颜色 */
@@ -149,6 +156,11 @@ typedef NS_ENUM(NSInteger, XChartViewScaleType) {
  */
 @property (nonatomic,assign) XChartViewScaleType scaleType;
 
+/**
+ * X 轴刻度的类型
+ */
+@property (nonatomic, assign) XCoordinatesType xCoType;
+
 - (void)strokeChart;
 
 
@@ -164,5 +176,9 @@ typedef NS_ENUM(NSInteger, XChartViewScaleType) {
 - (void)drawMarker:(CGFloat)drawX xTitle:(NSString *)title yValuesArr:(NSArray *)yArr indexPath:(NSIndexPath*)indexPath;
 - (void)removeMarkView;
 
+- (NSString *)stringByXCoordinatesType:(XCoordinatesType)xCoType objStr:(NSString *)objStr;
+
 
 @end
+
+

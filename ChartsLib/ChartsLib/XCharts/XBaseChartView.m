@@ -1019,6 +1019,37 @@
     self.contentView.contentSize = CGSizeMake(self.contentView.frame.size.width, 0);
 }
 
+- (NSString *)stringByXCoordinatesType:(XCoordinatesType)xCoType objStr:(NSString *)objStr {
+    NSString *xStr;
+    NSMutableArray *monthStrArr ;
+    switch (xCoType) {
+        case XCoordinatesTypeNormal:
+            xStr = objStr;
+            break;
+            
+        case XCoordinatesTypeMinute:
+            xStr = [objStr componentsSeparatedByString:@" "].lastObject;
+            break;
+            
+        case XCoordinatesTypeDay:
+            xStr = [objStr componentsSeparatedByString:@" "].firstObject;
+            break;
+            
+        case XCoordinatesTypeMonth:
+            xStr = [objStr componentsSeparatedByString:@" "].firstObject;
+            monthStrArr = [NSMutableArray arrayWithArray:[xStr componentsSeparatedByString:@"-"]];
+            [monthStrArr removeLastObject];
+            xStr = [monthStrArr componentsJoinedByString:@"-"];
+            
+            break;
+            
+        default:
+            break;
+    }
+    
+    return xStr;
+}
+
 
 /**
  绘制X轴
@@ -1028,8 +1059,19 @@
     //1.获取最大lab的宽度
     __block CGFloat maxWidth = CGFLOAT_MIN;
     [self.xTitles enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        NSLog(@"self.xCoType -- %@", @(self.xCoType));
+        
         // 决定X 轴刻度的宽度
-        NSString *xStr = [obj componentsSeparatedByString:@" "].lastObject;
+        //        NSString *xStr;
+        //        xStr = [obj componentsSeparatedByString:@" "].firstObject;
+        
+        
+        
+        //        NSLog(@"xStr -- %@", xStr);
+        
+        NSString *xStr = [self stringByXCoordinatesType:self.xCoType objStr:obj];
+        
         CGSize objSize = [xStr sizeWithAttributes:@{NSFontAttributeName:self.labFont}];
         if (objSize.width > maxWidth) {
             maxWidth = objSize.width;
@@ -1041,8 +1083,15 @@
     //3.间隔几个title显示一个lab
     NSInteger spaceNumber = (maxWidth/self.finalLabWidth)/2+1;
     NSInteger visibleCount = (self.contentView.contentSize.width - WZCChartRight - WZCChartLeft) / maxWidth;
+    
+    NSLog(@"x轴坐标调试1 -- %@ -- %@", @(self.xLabArr.count), @(self.xTitles.count));
     //添加标签
-    if (self.xLabArr == nil||self.xLabArr.count != self.xTitles.count) {
+    //    NSString *lastTimeStr = [self.xTitles.lastObject componentsSeparatedByString:@" "].lastObject;
+    NSString *lastTimeStr = [self stringByXCoordinatesType:self.xCoType objStr:self.xTitles.lastObject];
+    
+    //    if (self.xLabArr == nil||self.xLabArr.count != self.xTitles.count) {
+    
+    if (self.xLabArr == nil|| self.xLabArr.lastObject.text != lastTimeStr) {
         [self.xLabArr makeObjectsPerformSelector:@selector(removeFromSuperview)];
         self.xLabArr = [NSMutableArray array];
         for (int i = 0; i < self.xTitles.count; i ++) {
@@ -1055,15 +1104,20 @@
             //            xLab.text = @"5:00";
             
             // 目前只适用于NetZero 项目，将时间的日期去掉，只剩小时分钟
-            xLab.text = [self.xTitles[i] componentsSeparatedByString:@" "].lastObject;
+            NSString *xTitleStr = [self stringByXCoordinatesType:self.xCoType objStr:self.xTitles[i]];
+            xLab.text = xTitleStr;
+            //            xLab.text = [self.xTitles[i] componentsSeparatedByString:@" "].lastObject;
             
             xLab.hidden = YES;
-            //            xLab.textColor = self.coordColor;
+            // xLab.textColor = self.coordColor;
             xLab.textColor = self.coordTextColor;
             [self.contentView addSubview:xLab];
             [self.xLabArr addObject:xLab];
         }
     }
+    
+    NSLog(@"x轴坐标调试2 -- %@ -- %@", @(self.xLabArr.count), @(self.xTitles.count));
+    
     for (int i = 0; i < self.xLabArr.count; i ++) {
         CGFloat centerX = (i + 0.5f) * self.finalLabWidth + WZCChartLeft;
         CGPoint center = self.xLabArr[i].center;
