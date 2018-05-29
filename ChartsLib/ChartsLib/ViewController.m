@@ -47,6 +47,7 @@
             ((XLineChartView *)chartView).chartType = XChartLineTypePolyline; //设置绘制类型为折现
         }
         ((XLineChartView *)chartView).showDot = YES;   //设置显示圆点
+//        ((XLineChartView *)chartView).gradientEnable = NO;  //设置启用渐变填充
         ((XLineChartView *)chartView).gradientEnable = YES;  //设置启用渐变填充
     }else{   //柱状图
         chartView = [[XBarChartView alloc] initWithFrame:self.contentView.bounds];
@@ -59,7 +60,9 @@
     chartView.scaleType = XChartViewScaleTypeFollowGesture;
     
 }
-- (IBAction)reStrock:(UIButton *)sender {
+
+// 重新输入数据进行绘制
+- (void)reStrock:(UIButton *)sender {
     [self setChartData:self.chartView];
     [self.chartView strokeChart];
 }
@@ -70,7 +73,7 @@
     
 }
 
-- (IBAction)sureAction:(id)sender {
+- (void)sureAction:(id)sender {
     [self.view endEditing:YES];
     [self reStrock:nil];
 }

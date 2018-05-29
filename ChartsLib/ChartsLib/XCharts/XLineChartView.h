@@ -13,17 +13,28 @@ typedef NS_ENUM(NSInteger, XChartLineType) {
     XChartLineTypePolyline
 };
 
+typedef NS_ENUM(NSInteger, RXLineDotType) {
+    RXLineDotTypeCircle =0,
+    RXLineDotTypeDiamond,       // 菱形
+    RXLineDotTypeSquare,        //正方形
+    RXLineDotTypeUPTriangle,    //上三角形
+    RXLineDotTypeDownTriangle   //下三角形
+};
+
 
 @interface XLineChartView : XBaseChartView
 
 /** 绘制线条的宽度 */
 @property (nonatomic,assign) CGFloat strokeLineWidth;
 
-/** 显示圆点 */
+/** 显示连接点 */
 @property (nonatomic,assign) BOOL showDot;
 
-/** 绘制线条上圆点的半径 */
-@property (nonatomic,assign) CGFloat dotRadius;
+/** sihua 圆点类型 */
+@property (nonatomic, assign)RXLineDotType dotType;
+
+///** 绘制线条上圆点的半径 */
+//@property (nonatomic,assign) CGFloat dotRadius;
 
 /** 绘制线条上圆点的线条宽度 */
 @property (nonatomic,assign) CGFloat dotLineWidth;
@@ -33,6 +44,9 @@ typedef NS_ENUM(NSInteger, XChartLineType) {
 
 /** 绘制线条上圆点的填充颜色 */
 @property (nonatomic,strong) NSArray <UIColor*> *dotFillColors;
+
+/** 是否实心点 默认 YES */
+@property (nonatomic, assign) BOOL isDotFill;
 
 /** 渐变色填充 默认 YES */
 @property (nonatomic,assign) BOOL gradientEnable;
@@ -46,3 +60,5 @@ typedef NS_ENUM(NSInteger, XChartLineType) {
 /** 线条类型 */
 @property (nonatomic,assign) XChartLineType chartType;
 @end
+
+

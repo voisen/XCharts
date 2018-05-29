@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "MainViewController.h"
+#import "ViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,6 +18,22 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    
+    MainViewController *mainCtr = [[MainViewController alloc] init];
+    self.window.rootViewController = mainCtr;
+    
+//    ViewController *viewCtr = [[ViewController alloc] init];
+//    self.window.rootViewController = viewCtr;
+    
+//    //获取storyboard: 通过bundle根据storyboard的名字来获取我们的storyboard,
+//    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+//    
+//    //由storyboard根据myView的storyBoardID来获取我们要切换的视图
+//    UIViewController *myView = [story instantiateViewControllerWithIdentifier:@"myView"];
    
     return YES;
 }
